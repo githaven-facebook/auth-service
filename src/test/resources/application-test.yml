@@ -1,0 +1,22 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+app:
+  jwt:
+    secret: test-secret-key-must-be-at-least-256-bits-long-for-hmac-sha256-algorithm
+    access-token-expiry-seconds: 900
+    refresh-token-expiry-seconds: 604800
+    issuer: https://auth.facebook.com
+  session:
+    expiry-seconds: 86400
+
+logging:
+  level:
+    com.facebook.auth: WARN
+    org.springframework.security: WARN
