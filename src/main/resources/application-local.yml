@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/authdb
+    username: authuser
+    password: authpass
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: redispass
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+app:
+  jwt:
+    secret: local-development-secret-key-not-for-production-use-at-least-256-bits
+    access-token-expiry-seconds: 3600
+    refresh-token-expiry-seconds: 86400
+    issuer: http://localhost:8080
+
+logging:
+  level:
+    com.facebook.auth: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
