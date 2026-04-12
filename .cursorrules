@@ -1,0 +1,54 @@
+# Auth Service - Cursor Rules
+
+## Project Overview
+Java 21 Spring Boot 3.2 authentication and authorization service.
+OAuth2/OIDC provider with JWT, 2FA (TOTP), RBAC, session management.
+
+## Tech Stack
+- Java 21, Spring Boot 3.2.2
+- Spring Security + Spring Authorization Server
+- PostgreSQL (JPA/Hibernate), Redis (session/token cache)
+- Flyway for database migrations
+- jjwt for JWT token handling
+- Bucket4j for rate limiting
+- Gradle build system
+
+## Project Structure
+- `src/main/java/com/facebook/auth/`
+  - `config/` - Security, JWT, Redis, OAuth2, rate limit config
+  - `controller/` - REST controllers (Auth, User, Session, TwoFactor)
+  - `service/` - Business logic
+  - `model/entity/` - JPA entities
+  - `model/dto/` - Request/Response DTOs (Java records)
+  - `repository/` - Spring Data JPA repositories
+  - `security/` - JWT provider, auth filter, user details service
+  - `exception/` - Error codes, exception handler
+- `src/main/resources/db/migration/` - Flyway SQL migrations
+- `src/test/` - Unit tests (Mockito) + Integration tests (TestContainers)
+
+## Commands
+- Build: `./gradlew build`
+- Test: `./gradlew test`
+- Run: `./gradlew bootRun`
+- Lint: `./gradlew checkstyleMain checkstyleTest`
+
+## Security-Critical Rules
+- NEVER log or expose JWT secrets, passwords, or tokens
+- NEVER weaken SecurityConfig without explicit security team approval
+- Password hashing: BCrypt only (strength 12)
+- JWT: HS256 minimum, prefer RS256 for production
+- All auth endpoints must be rate-limited
+- Always validate @Valid on request DTOs
+
+## Database Migration Rules
+- New migrations: `V{next_number}__{description}.sql`
+- NEVER modify existing migration files
+- NEVER drop columns in production migrations (add new, deprecate old)
+- Always provide rollback strategy in migration comments
+
+## Do NOT
+- Do not disable CSRF protection
+- Do not store plaintext passwords or tokens
+- Do not expose internal error details in API responses
+- Do not modify RBAC permission seeds without admin approval
+- Do not add new OAuth2 grant types without security review
