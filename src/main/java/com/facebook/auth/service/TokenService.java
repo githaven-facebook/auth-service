@@ -96,6 +96,10 @@ public class TokenService {
         }
     }
 
+    public long getAccessTokenExpirySeconds() {
+        return jwtConfig.getAccessTokenExpirySeconds();
+    }
+
     public void revokeAllUserTokens(UUID userId) {
         String pattern = REFRESH_PREFIX + "*";
         Set<String> keys = redisTemplate.keys(pattern);
