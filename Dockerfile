@@ -7,10 +7,10 @@ COPY gradle ./gradle
 COPY gradlew ./
 
 # Cache dependencies
-RUN gradle dependencies --no-daemon 2>/dev/null || true
+RUN chmod +x gradlew && ./gradlew dependencies --no-daemon 2>/dev/null || true
 
 COPY src ./src
-RUN gradle bootJar --no-daemon -x test
+RUN ./gradlew bootJar --no-daemon -x test
 
 # Runtime stage
 FROM eclipse-temurin:21-jre-alpine
